@@ -22,27 +22,26 @@ def clean_text(text: str) -> str:
     Args:
         text: raw input text (title + body + tags, or any free text).
 
-    Returns:
-        Cleaned text string.
+    Returns Cleaned text string
     """
     text = str(text)
 
-    # Remove HTML tags
+    # remove HTML tags
     text = re.sub(r"<.*?>", " ", text)
 
-    # Remove URLs
+    # remove URLs
     text = re.sub(r"http\S+|www\S+", " ", text)
 
-    # Lowercase
+    # lowercase
     text = text.lower()
 
-    # Remove punctuation
+    # remove punctuation
     text = text.translate(str.maketrans("", "", string.punctuation))
 
-    # Remove numbers
+    # remove numbers
     text = re.sub(r"\d+", " ", text)
 
-    # Remove extra whitespace
+    # remove extra whitespace
     text = re.sub(r"\s+", " ", text).strip()
 
     return text

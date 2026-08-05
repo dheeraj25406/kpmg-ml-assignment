@@ -7,9 +7,16 @@ otherwise send it to a teacher for manual review. Used by both the
 grading and triage inference paths.
 """
 
-# Minimum confidence required to auto-approve a prediction.
+# minimum confidence required to auto-approve a prediction.
 # Kept as a single configurable constant so both grading and triage
 # routing use the same, easily-tunable threshold.
+# here we are using confidence threshold of 0.75, so if the model's confidence
+# is 75% or higher, we auto-approve the prediction; otherwise, we send it for
+# teacher review.
+
+# Confidence threshold value can be adjusted based on experimentation and 
+# model performance to get the desired trade-off
+
 CONFIDENCE_THRESHOLD = 0.75
 
 

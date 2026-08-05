@@ -1,34 +1,23 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 
 # Virtual environments
 .venv/
 venv/
+test_env/
 env/
-
-# VS Code
-.vscode/
-
-# macOS
-.DS_Store
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Python caches
-.pytest_cache/
-.mypy_cache/
-
-# Models
-*.pkl
-*.joblib
-
-# Project datasets
-datasets/
-
-# VS Code
-.vscode/
-
 # macOS
 .DS_Store
+
+# Models (keep commented if you want to upload models)
+# models/*.pkl
+
+# IDE
+.vscode/
+.idea/

@@ -37,7 +37,7 @@ def _load_model():
 
 def predict_quality(features: dict) -> dict:
     """
-    Predict code quality (defect risk) for a single submission.
+    Predict code quality for a single submission.
 
     Args:
         features: dict with the 21 raw code metrics the model was trained
@@ -53,8 +53,7 @@ def predict_quality(features: dict) -> dict:
             - routing: "auto-approved" or "teacher-review", based on
               confidence (see src/triage/routing.py)
 
-    Raises:
-        ValueError: if features are missing or non-numeric.
+    Raises ValueError if features are missing or non-numeric.
     """
     model = _load_model()
     ordered_values = validate_and_order_features(features)
@@ -73,10 +72,16 @@ def predict_quality(features: dict) -> dict:
     prediction = int(class_labels[probabilities.argmax()])
     confidence = float(probabilities.max())
 
+    defect_probability = prob_by_class["1"]
+
+    quality_score = round((1 - defect_probability) * 100, 2)
+
     return {
         "prediction": prediction,
         "label": "defective" if prediction == 1 else "not_defective",
-        "confidence": confidence,
+        "quality_score": quality_score,
+        "defect_probability": round(defect_probability, 4),
+        "confidence": round(confidence, 4),
         "probabilities": prob_by_class,
         "routing": route_by_confidence(confidence),
     }

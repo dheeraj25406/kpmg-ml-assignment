@@ -20,6 +20,11 @@ MODEL_PATH = os.path.join(MODELS_DIR, "doubt_triage_model.pkl")
 _vectorizer = None
 _model = None
 
+LABEL_MAP = {
+    "HQ": "High Quality Doubt",
+    "LQ_EDIT": "Needs More Details",
+    "LQ_CLOSE": "Low Quality / Close"
+}
 
 def _load_artifacts():
     """Load the TF-IDF vectorizer and classifier once and cache them."""
@@ -46,7 +51,7 @@ def predict_triage(text: str) -> dict:
     Classify a student doubt's quality/urgency category.
 
     Args:
-        text: raw doubt text (e.g. question title + body).
+        text: raw doubt text (like question title + body).
 
     Returns:
         dict with:
@@ -58,8 +63,7 @@ def predict_triage(text: str) -> dict:
             - routing: "auto-approved" or "teacher-review", based on
               confidence (see src/triage/routing.py)
 
-    Raises:
-        ValueError: if text is empty or not a string.
+    Raises ValueError if text is empty or not a string.
     """
     if not isinstance(text, str) or not text.strip():
         raise ValueError("Input 'text' must be a non-empty string.")
@@ -80,7 +84,8 @@ def predict_triage(text: str) -> dict:
 
     return {
         "prediction": prediction,
-        "confidence": confidence,
+        "category": LABEL_MAP.get(prediction, prediction),
+        "confidence": round(confidence, 4),
         "probabilities": prob_by_class,
         "routing": route_by_confidence(confidence),
     }
