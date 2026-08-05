@@ -250,6 +250,7 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+Make sure to download the Doubt-Triage dataset, following the instructions mentioned in `datasets/doubt-triage/readme.md` before starting the server.
 
 Start server:
 
