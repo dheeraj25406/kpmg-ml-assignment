@@ -27,11 +27,6 @@ env/
 # Project datasets
 datasets/
 
-# Models
-models/
-*.pkl
-*.joblib
-
 # VS Code
 .vscode/
 
