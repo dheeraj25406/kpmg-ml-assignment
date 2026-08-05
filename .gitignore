@@ -1,20 +1,31 @@
 # Python
 __pycache__/
 *.py[cod]
+<<<<<<< HEAD
 *$py.class
+=======
+>>>>>>> origin/main
 
 # Virtual environments
 .venv/
 venv/
+<<<<<<< HEAD
 test_env/
 env/
 
 # Jupyter
 .ipynb_checkpoints/
+=======
+env/
+
+# VS Code
+.vscode/
+>>>>>>> origin/main
 
 # macOS
 .DS_Store
 
+<<<<<<< HEAD
 # Models (keep commented if you want to upload models)
 # models/*.pkl
 
@@ -25,3 +36,24 @@ env/
 # Doubt-triage train dataset
 # ignoring because git push throws secrets exposed error
 datasets/doubt-triage/train.csv
+=======
+# Jupyter
+.ipynb_checkpoints/
+
+# Python caches
+.pytest_cache/
+.mypy_cache/
+
+# Models
+*.pkl
+*.joblib
+
+# Project datasets
+datasets/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+>>>>>>> origin/main
