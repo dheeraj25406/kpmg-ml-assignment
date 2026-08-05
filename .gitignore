@@ -21,3 +21,7 @@ env/
 # IDE
 .vscode/
 .idea/
+
+# Doubt-triage train dataset
+# ignoring because git push throws secrets exposed error
+datasets/doubt-triage/train.csv
