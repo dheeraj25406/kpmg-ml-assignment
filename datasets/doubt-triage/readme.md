@@ -1,54 +1,87 @@
-Dataset could not be uploaded to github as it threw secrets exposed error.
-It might have considered some of the data in the dataset as secret exposure.
+## Dataset
 
-So, I have ran it locally, and uploading the dataset link here.
-Dataset used is 60k Stack Overflow Questions with Quality Rating from Kaggle.
+The doubt triage model is trained on the **60k Stack Overflow Questions with Quality Rating** dataset from Kaggle. This dataset contains real-world programming questions along with manually curated quality labels, making it suitable for building an automated doubt triage system for an LMS.
 
-Dataset Link : https://www.kaggle.com/datasets/imoore/60k-stack-overflow-questions-with-quality-rate
+### Dataset Source
 
-To run it locally, please download the dataset and place it datasets/doubt-triage
+**Kaggle:** 60k Stack Overflow Questions with Quality Rating
 
+https://www.kaggle.com/datasets/imoore/60k-stack-overflow-questions-with-quality-rate
 
-Other datasets studied:
+> **Note:** The dataset is not included in this repository because GitHub's Push Protection flagged one of the text entries as a potential secret. To reproduce the project, download the dataset from the above link and place `train.csv` inside:
+>
+> ```
+> datasets/doubt-triage/
+> ```
 
-- EdNet dataset - contains over 131 million interactions, too huge
-- Stack Overflow complete dataset - needed to be dowloaded from google Bigquery as it is also too huge
-- Moodle forums - unable to find
+---
 
+## Why This Dataset?
 
-Hence, 60k Stack Overflow Questions with Quality Rating was considered. 
+Several datasets were evaluated before selecting this one:
 
-Input fields:
+| Dataset | Reason Not Selected |
+|---------|---------------------|
+| EdNet | Extremely large (130M+ interactions), unsuitable for a 24-hour assignment |
+| Complete Stack Overflow Dump | Requires Google BigQuery and extensive preprocessing |
+| Moodle Forum Datasets | Limited availability and inconsistent labeling |
 
-- Question title
-- Question body
-- Tags
+The **60k Stack Overflow Questions with Quality Rating** dataset was chosen because it:
 
-Classes:
+- Contains real programming-related questions.
+- Provides pre-labeled quality classes.
+- Closely resembles student programming doubts submitted on an LMS.
+- Requires minimal preprocessing while remaining representative of real-world queries.
+- Is well-suited for demonstrating an end-to-end NLP classification pipeline.
 
-| Label | Meaning |
-|---|---|
-| HQ | High Quality |
-| LQ_EDIT | Low Quality but can be improved |
-| LQ_CLOSE | Low Quality and likely should be closed |
+---
 
-### Dataset Overview
+## Input Features
 
-The doubt triage model is trained on a dataset containing **45,000 Stack Overflow questions**. Each record consists of the question title, body, tags, creation date, and a quality label used for classification.
+Each record contains the following information:
 
 | Column | Description | Data Type |
 |--------|-------------|----------|
-| `Id` | Unique identifier for each question | `int64` |
-| `Title` | Title of the question | `string` |
-| `Body` | Detailed question content | `string` |
+| `Id` | Unique identifier | `int64` |
+| `Title` | Question title | `string` |
+| `Body` | Detailed question description | `string` |
 | `Tags` | Associated Stack Overflow tags | `string` |
-| `CreationDate` | Date when the question was posted | `string` |
-| `Y` | Target quality label (`HQ`, `LQ_EDIT`, `LQ_CLOSE`) | `string` |
+| `CreationDate` | Date of question creation | `string` |
+| `Y` | Target quality label | `string` |
 
-**Dataset Summary**
+---
 
-- **Total Records:** 45,000, 15,000 each of HQ, LQ_EDIT and LQ_CLOSE
-- **Features:** 5 input columns
-- **Target Column:** `Y`
-- **Missing Values:** None
-- **Repeated records:** None
+## Target Classes
+
+| Label | Meaning |
+|------|---------|
+| **HQ** | High-quality question |
+| **LQ_EDIT** | Low-quality question that can be improved with additional details |
+| **LQ_CLOSE** | Low-quality question that is unlikely to be useful and is suitable for closure |
+
+---
+
+## Dataset Summary
+
+| Property | Value |
+|----------|-------|
+| Original Dataset Size | ~60,000 questions |
+| Records Used | 45,000 |
+| Class Distribution | 15,000 per class (balanced) |
+| Number of Input Features | 5 |
+| Target Column | `Y` |
+| Missing Values | None |
+| Duplicate Records | None |
+
+---
+
+## Preprocessing
+
+The following preprocessing steps were applied before model training:
+
+- Combined **Title**, **Body**, and **Tags** into a single text field.
+- Removed HTML tags and URLs.
+- Converted text to lowercase.
+- Removed punctuation and numeric characters.
+- Normalized whitespace.
+- Generated TF-IDF features using unigrams and bigrams (`max_features=20,000`).
